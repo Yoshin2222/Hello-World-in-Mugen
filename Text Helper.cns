@@ -1,0 +1,57 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;TEXT HELPER
+[Statedef 29846]
+type = A
+movetype = I
+physics = N
+anim = 1
+ctrl = 0
+
+[State STRING Table | HELLO WORLD! |]
+type = null
+triggerall = !fvar(0)
+trigger1 = 1 || var(0) := 17 ; H
+trigger1 = 1 || var(1) := 14 ; E
+trigger1 = 1 || var(2) := 21 ; L
+trigger1 = 1 || var(3) := 21 ; L
+trigger1 = 1 || var(4) := 24 ; O
+trigger1 = 1 || var(5) := -1 ;
+trigger1 = 1 || var(6) := 32 ; W
+trigger1 = 1 || var(7) := 24 ; O
+trigger1 = 1 || var(8) := 27 ; R
+trigger1 = 1 || var(9) := 21 ; L
+trigger1 = 1 || var(10) := 13 ; D
+trigger1 = 1 || var(11) := 36 ; !
+trigger1 = 1 || var(12) := -2 ; End
+persistent = 0
+
+[State Set string horizontal length]
+type = varset
+trigger1 = !fvar(1)
+fvar(1) = 13
+
+[State get xpos]
+type = varset
+trigger1 = 1
+fvar(2) = floor(fvar(0))%floor(fvar(1))
+[State get ypos]
+type = varset
+trigger1 = 1
+fvar(3) = floor(fvar(0))/floor(fvar(1))
+
+[State Display Character]
+type = explod
+triggerall = var(floor(fvar(0))) >= 0
+trigger1 = !numhelper(stateno+floor(fvar(0)))
+pos = floor(16*floor(fvar(2))),-150+(20*(floor(fvar(3))))
+anim = stateno + var(floor(fvar(0)))
+id = stateno+floor(fvar(0))
+ontop = 1
+removetime = -1
+persistent = 0
+
+[State Recursion]
+type = changestate
+triggerall = var(floor(fvar(0))) != -2 ;Not reached the end of the string
+trigger1 = 1 || fvar(0) := fvar(0) + 1
+value = stateno
